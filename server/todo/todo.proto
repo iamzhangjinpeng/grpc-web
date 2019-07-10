@@ -1,0 +1,83 @@
+syntax = "proto3";
+package todo;
+
+import "google/api/annotations.proto";
+
+service todoService {
+  rpc listTodo(listTodoParams) returns (ListTodoResponse) {
+    option (google.api.http) = {
+      get: "/todo"
+    };
+  }
+  rpc addTodo(addTodoParams) returns (addTodoResponse) {
+    option (google.api.http) = {
+      post: "/todo"
+      body: "*"
+    };
+  }
+  rpc getTodo(getTodoParams) returns (getTodoResponse) {
+    option (google.api.http) = {
+      get: "/todo/{id}"
+    };
+  }
+  rpc deleteTodo(deleteTodoParams) returns (deleteTodoResponse) {
+    option (google.api.http) = {
+      delete: "/todo/{id}"
+    };
+  }
+  rpc updateTodo(updateTodoParams) returns (updateTodoResponse) {
+    option (google.api.http) = {
+      put: "/todo/{id}",
+      body: "*"
+    };
+  }
+}
+
+message todoObject {
+  string id = 1;
+  string task = 2;
+}
+
+// list
+message listTodoParams{}
+
+message ListTodoResponse {
+  repeated todoObject todos = 1;
+}
+
+// get
+message getTodoParams{
+  string id = 1;
+}
+
+message getTodoResponse {
+  todoObject todo = 1;
+}
+
+// add
+message addTodoParams {
+  string task = 1;
+}
+
+message addTodoResponse {
+  string message = 1;
+}
+
+// update
+message updateTodoParams {
+  string id = 1;
+  string task = 2;
+}
+
+message updateTodoResponse {
+  string message = 1;
+}
+
+// delete
+message deleteTodoParams {
+  string id = 1;
+}
+
+message deleteTodoResponse {
+  string message = 1;
+}
